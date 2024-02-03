@@ -1,17 +1,15 @@
-import express, { Request, Response } from 'express'
-import { createDB } from './db'
+import express from 'express'
+import { createDB } from './repositories/db'
+import { videosRouter } from './routes/videos-routes/videosRouter'
+import { RoutesList } from './routes'
 
 export const app = express()
 app.use(express.json())
 
 export const db = createDB()
 
-type ParamsType = {
-  id: string
-}
+app.use(RoutesList.VIDEOS, videosRouter);
 
-export const getVideos = (req: Request<ParamsType>, res: Response) => {
-  res.status(200).json(db.videos)
-}
-
-app.get('/videos', getVideos);
+app.get(RoutesList.BASE, (req, res) => {
+  res.send('Welcome to joyme studios back-hwinc project')
+})

@@ -1,9 +1,10 @@
 import { app, db } from '../src/app'
 import supertest = require('supertest')
+import { testVideo } from '../src/repositories/db'
 
 const request = supertest(app)
 
-describe('/videos', () => {
+describe('/videos route tests: ', () => {
   beforeAll(async () => {
 
   })
@@ -12,13 +13,12 @@ describe('/videos', () => {
     db.videos = []
   })
 
-  it('GET /videos', async () => {
-    db.videos = [{title: 'Boltiks and AI'}]
+  it('GET /videos: ', async () => {
+    db.videos = [testVideo]
 
     const res = await request.get('/videos').expect(200)
 
-    console.log('body: ', res.body)
     expect(res.body.length).toBe(1)
-    expect(res.body).toStrictEqual([{title: 'Boltiks and AI'}])
+    expect(res.body).toStrictEqual([testVideo])
   })
 })
