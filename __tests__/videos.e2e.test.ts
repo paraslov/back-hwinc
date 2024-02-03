@@ -12,7 +12,7 @@ describe('/videos route tests: ', () => {
 
   })
 
-  afterEach(async () => {
+  beforeEach(async () => {
     db.videos = []
   })
 
@@ -36,13 +36,33 @@ describe('/videos route tests: ', () => {
     expect(db.videos.length).toBe(1)
   })
 
-  it('POST /videos bad body data: ', async () => {
+  it('POST /videos bad title: ', async () => {
     const res = await request.post(RoutesList.VIDEOS)
       .send({ title: '', author: 'Sergio', availableResolutions: [ResolutionsTypes.P720, ResolutionsTypes.P1080] })
       .expect(HttpStatusCode.BAD_REQUEST_400)
 
     expect(res.body.errorsMessages.length).toBe(1)
     expect(res.body.errorsMessages[0].field).toBe('title')
+    expect(db.videos.length).toBe(0)
+  })
+
+  it('POST /videos bad author: ', async () => {
+    const res = await request.post(RoutesList.VIDEOS)
+      .send({ title: 'Sergio`s JS', author: '', availableResolutions: [ResolutionsTypes.P720, ResolutionsTypes.P1080] })
+      .expect(HttpStatusCode.BAD_REQUEST_400)
+
+    expect(res.body.errorsMessages.length).toBe(1)
+    expect(res.body.errorsMessages[0].field).toBe('author')
+    expect(db.videos.length).toBe(0)
+  })
+
+  it('POST /videos bad author: ', async () => {
+    const res = await request.post(RoutesList.VIDEOS)
+      .send({ title: 'Sergio`s JS', author: 'Sergio', availableResolutions: [] })
+      .expect(HttpStatusCode.BAD_REQUEST_400)
+
+    expect(res.body.errorsMessages.length).toBe(1)
+    expect(res.body.errorsMessages[0].field).toBe('availableResolutions')
     expect(db.videos.length).toBe(0)
   })
 })
