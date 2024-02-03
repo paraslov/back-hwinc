@@ -13,7 +13,7 @@ describe('/videos route tests: ', () => {
   })
 
   beforeEach(async () => {
-    db.videos = []
+    await request.delete(`${RoutesList.TESTING}/all-data`)
   })
 
   it('GET /videos: ', async () => {
