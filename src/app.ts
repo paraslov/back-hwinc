@@ -18,5 +18,5 @@ app.get(RoutesList.BASE, (req, res) => {
   res.send('Welcome to joyme studios back-hwinc project')
 })
 app.get(RoutesList.VERSION, (req, res) => {
-  res.json('back-hwinc: v1.2.0')
+  res.json('back-hwinc: v1.1.0')
 })
