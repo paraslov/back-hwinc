@@ -19,20 +19,29 @@ export const videosRepository = {
   async updateVideo(id: number, payload: VideosBodyModel) {
     const updatedVideo = this._findVideoById(id)
 
-    if (!updatedVideo) return false
-
-    db.videos = db.videos.map((video) => {
-      if (video.id === id) {
-        return {
-          ...video,
-          canBeDownloaded: false,
-          ...payload,
+    if (updatedVideo) {
+      db.videos = db.videos.map((video) => {
+        if (video.id === id) {
+          return {
+            ...video,
+            canBeDownloaded: false,
+            ...payload,
+          }
         }
-      }
-      return video
-    })
+        return video
+      })
+    }
 
-    return true
+    return !!updatedVideo
+  },
+  async deleteVideo(id: number) {
+    const video = this._findVideoById(id)
+
+    if (video) {
+      db.videos = db.videos.filter((video) => video.id !== id)
+    }
+
+    return !!video
   },
   _mapCreatedVideo(payload: VideosBodyModel): VideosViewModel {
     const { title, author, availableResolutions } = payload

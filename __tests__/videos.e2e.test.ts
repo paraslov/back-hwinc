@@ -173,4 +173,24 @@ describe('/videos route tests: ', () => {
     expect(db.videos[0].id).toStrictEqual(testVideo.id)
     expect(db.videos[0].author).toStrictEqual(testVideo.author)
   })
+
+  it('DELETE /videos by id success: ', async () => {
+    db.videos = [testVideo]
+
+    await request.delete(`${RoutesList.VIDEOS}/${testVideo.id}`)
+      .expect(HttpStatusCode.NO_CONTENT_204)
+
+    expect(db.videos.length).toBe(0)
+  })
+
+  it('DELETE /videos by id not found: ', async () => {
+    db.videos = [testVideo]
+
+    await request.delete(`${RoutesList.VIDEOS}/1287368127634711`)
+      .expect(HttpStatusCode.NOT_FOUND_404)
+
+    expect(db.videos.length).toBe(1)
+    expect(db.videos[0].id).toStrictEqual(testVideo.id)
+    expect(db.videos[0].author).toStrictEqual(testVideo.author)
+  })
 })
