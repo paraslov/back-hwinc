@@ -55,10 +55,15 @@ export const videosRepository = {
       canBeDownloaded: false,
       minAgeRestriction: null,
       createdAt: testVideo.createdAt,
-      publicationDate: testVideo.publicationDate,
+      publicationDate: this._addDay(testVideo.createdAt),
     }
   },
   _findVideoById(id: number) {
     return db.videos.find((video) => video.id === id)
+  },
+  _addDay(date: string) {
+    const startDate = new Date(date)
+
+    return new Date(startDate.setDate(startDate.getDate() + 1)).toISOString()
   }
 }
