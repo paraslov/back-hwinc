@@ -65,4 +65,18 @@ describe('/videos route tests: ', () => {
     expect(res.body.errorsMessages[0].field).toBe('availableResolutions')
     expect(db.videos.length).toBe(0)
   })
+
+  it('GET /videos by id success: ', async () => {
+    db.videos = [testVideo]
+
+    const res = await request.get(`${RoutesList.VIDEOS}/${testVideo.id}`).expect(HttpStatusCode.OK_200)
+
+    expect(res.body).toStrictEqual(testVideo)
+  })
+
+  it('GET /videos by id not found: ', async () => {
+    db.videos = [testVideo]
+
+    await request.get(`${RoutesList.VIDEOS}/91827398123981293871`).expect(HttpStatusCode.NOT_FOUND_404)
+  })
 })
