@@ -1,11 +1,12 @@
 import { Request, Response, Router } from 'express'
 import { VideosViewModel } from '../../model/videos/VideosViewModel'
 import { videosRepository } from '../../repositories/videos-repository'
-import { RequestBody, RequestParams } from '../../model'
+import { RequestBody, RequestParams, RequestParamsBody } from '../../model'
 import { VideosBodyModel } from '../../model/videos/VideosBodyModel'
 import { HttpStatusCode } from '../../enums/HttpStatusCodes'
 import { videosValidations } from '../../validations/videosValidations'
 import { inputValidationMiddleware } from '../../middleware/input-validation-middleware'
+import { IdParamsModel } from '../../model/URIParamsModel'
 
 export const videosRouter = Router()
 
@@ -26,7 +27,7 @@ videosRouter.post('/',
   res.status(HttpStatusCode.CREATED_201).json(createdVideo)
 })
 
-videosRouter.get('/:id', async (req: RequestParams<{id: string}>, res: Response<VideosViewModel>) => {
+videosRouter.get('/:id', async (req: RequestParams<IdParamsModel>, res: Response<VideosViewModel>) => {
   const video = await videosRepository.getVideoById(Number(req.params.id))
 
   if (!video) {
@@ -37,3 +38,21 @@ videosRouter.get('/:id', async (req: RequestParams<{id: string}>, res: Response<
 
   res.status(HttpStatusCode.OK_200).json(video)
 })
+
+videosRouter.put('/:id',
+  videosValidations.title,
+  videosValidations.author,
+  videosValidations.availableResolutions,
+  videosValidations.canBeDownloaded,
+  videosValidations.minAgeRestriction,
+  videosValidations.publicationDate,
+  inputValidationMiddleware,
+  async (req: RequestParamsBody<IdParamsModel, VideosBodyModel>, res: Response<VideosViewModel>) => {
+    const isVideoUpdated = await videosRepository.updateVideo(Number(req.params.id), req.body)
+
+    if (!isVideoUpdated) {
+      res.sendStatus(HttpStatusCode.NOT_FOUND_404)
+    }
+
+    res.sendStatus(HttpStatusCode.NO_CONTENT_204)
+  })
