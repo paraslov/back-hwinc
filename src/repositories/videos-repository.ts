@@ -53,7 +53,7 @@ export const videosRepository = {
       availableResolutions,
       id: Date.now(),
       canBeDownloaded: false,
-      minAgeRestriction: 1,
+      minAgeRestriction: null,
       createdAt: testVideo.createdAt,
       publicationDate: testVideo.publicationDate,
     }
