@@ -52,6 +52,8 @@ videosRouter.put('/:id',
 
     if (!isVideoUpdated) {
       res.sendStatus(HttpStatusCode.NOT_FOUND_404)
+
+      return
     }
 
     res.sendStatus(HttpStatusCode.NO_CONTENT_204)
