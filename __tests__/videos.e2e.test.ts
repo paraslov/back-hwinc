@@ -66,9 +66,20 @@ describe('/videos route tests: ', () => {
     expect(db.videos.length).toBe(0)
   })
 
-  it('POST /videos bad availableResolutions: ', async () => {
+  it('POST /videos empty availableResolutions: ', async () => {
     const res = await request.post(RoutesList.VIDEOS)
       .send({ title: 'Sergio`s JS', author: 'Sergio', availableResolutions: [] })
+      .expect(HttpStatusCode.BAD_REQUEST_400)
+
+    expect(res.body.errorsMessages.length).toBe(1)
+    expect(res.body.errorsMessages[0].field).toBe('availableResolutions')
+    expect(res.body.errorsMessages[0].message).toStrictEqual(expect.any(String))
+    expect(db.videos.length).toBe(0)
+  })
+
+  it('POST /videos bad availableResolutions: ', async () => {
+    const res = await request.post(RoutesList.VIDEOS)
+      .send({ title: 'Sergio`s JS', author: 'Sergio', availableResolutions: [ResolutionsTypes.P2160, ResolutionsTypes.P720, 'Invalid'] })
       .expect(HttpStatusCode.BAD_REQUEST_400)
 
     expect(res.body.errorsMessages.length).toBe(1)
