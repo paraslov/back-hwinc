@@ -46,7 +46,7 @@ describe('/videos route tests: ', () => {
 
   it('POST /videos bad title: ', async () => {
     const res = await request.post(RoutesList.VIDEOS)
-      .send({ title: '', author: 'Sergio', availableResolutions: [ResolutionsTypes.P720, ResolutionsTypes.P1080] })
+      .send({ title: null, author: 'Sergio', availableResolutions: [ResolutionsTypes.P720, ResolutionsTypes.P1080] })
       .expect(HttpStatusCode.BAD_REQUEST_400)
 
     expect(res.body.errorsMessages.length).toBe(1)
