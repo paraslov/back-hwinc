@@ -1,6 +1,7 @@
 import { db } from '../app'
 import { VideosBodyModel } from '../model/videos/VideosBodyModel'
 import { VideosViewModel } from '../model/videos/VideosViewModel'
+import { testVideo } from './db'
 
 export const videosRepository = {
   async getVideos() {
@@ -51,10 +52,10 @@ export const videosRepository = {
       author,
       availableResolutions,
       id: Date.now(),
-      canBeDownloaded: true,
-      minAgeRestriction: 0,
-      createdAt: new Date().toDateString(),
-      publicationDate: new Date().toDateString(),
+      canBeDownloaded: false,
+      minAgeRestriction: 1,
+      createdAt: testVideo.createdAt,
+      publicationDate: testVideo.publicationDate,
     }
   },
   _findVideoById(id: number) {
