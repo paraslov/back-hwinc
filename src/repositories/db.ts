@@ -18,7 +18,7 @@ export const testVideo = {
   availableResolutions: [ResolutionsTypes.P720, ResolutionsTypes.P1080, ResolutionsTypes.P480],
   canBeDownloaded: true,
   createdAt: '2023-08-08',
-  id: 1,
+  id: 777888,
   minAgeRestriction: 18,
   publicationDate: '2023-07-08',
   title: 'Reactions on JS refactor to TS',

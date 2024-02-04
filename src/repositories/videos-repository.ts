@@ -6,9 +6,12 @@ export const videosRepository = {
   async getVideos() {
     return db.videos
   },
-  async createVideo(payload: VideosBodyModel) {
-    const { title, author, availableResolutions } = payload
+  async getVideoById(id?: number) {
+    if (typeof id !== 'number') return
 
+    return db.videos.find((video) => video.id === id)
+  },
+  async createVideo(payload: VideosBodyModel) {
     const createdVideo = this._mapCreatedVideo(payload)
 
     db.videos.push(createdVideo)
