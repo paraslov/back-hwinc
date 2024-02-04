@@ -161,4 +161,16 @@ describe('/videos route tests: ', () => {
     expect(db.videos[0].id).toStrictEqual(testVideo.id)
     expect(db.videos[0].publicationDate).toStrictEqual(testVideo.publicationDate)
   })
+
+  it('PUT /videos by id not found: ', async () => {
+    db.videos = [testVideo]
+
+    await request.put(`${RoutesList.VIDEOS}/1287368127634711`)
+      .send(updateVideoBody)
+      .expect(HttpStatusCode.NOT_FOUND_404)
+
+    expect(db.videos.length).toBe(1)
+    expect(db.videos[0].id).toStrictEqual(testVideo.id)
+    expect(db.videos[0].author).toStrictEqual(testVideo.author)
+  })
 })
