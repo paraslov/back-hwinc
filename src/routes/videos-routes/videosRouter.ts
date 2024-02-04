@@ -58,3 +58,15 @@ videosRouter.put('/:id',
 
     res.sendStatus(HttpStatusCode.NO_CONTENT_204)
   })
+
+videosRouter.delete('/:id', async (req: RequestParams<IdParamsModel>, res: Response<VideosViewModel>) => {
+  const isDeleted = await videosRepository.deleteVideo(Number(req.params.id))
+
+  if (!isDeleted) {
+    res.sendStatus(HttpStatusCode.NOT_FOUND_404)
+
+    return
+  }
+
+  res.sendStatus(HttpStatusCode.NO_CONTENT_204)
+})
