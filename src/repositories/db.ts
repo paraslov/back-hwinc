@@ -17,9 +17,9 @@ export const testVideo = {
   author: 'Sergio',
   availableResolutions: [ResolutionsTypes.P720, ResolutionsTypes.P1080, ResolutionsTypes.P480],
   canBeDownloaded: true,
-  createdAt: '2023-08-08',
+  createdAt: '2024-02-04T02:11:28.944Z',
   id: 777888,
   minAgeRestriction: 18,
-  publicationDate: '2023-07-08',
+  publicationDate: '2024-02-04T02:11:28.944Z',
   title: 'Reactions on JS refactor to TS',
 }

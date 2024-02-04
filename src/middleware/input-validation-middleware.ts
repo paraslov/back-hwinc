@@ -7,7 +7,7 @@ export function inputValidationMiddleware(req: Request<any>, res: Response, next
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
-    const formattedErrors = formatErrors(errors.array())
+    const formattedErrors = formatErrors(errors.array({ onlyFirstError: true }))
 
     return res.status(400).json({ errorsMessages: formattedErrors });
   }
